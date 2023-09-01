@@ -1,20 +1,27 @@
-#######################################################################
-# Copyright (C) Blosc Development team <blosc@blosc.org>
-# All rights reserved.
-#######################################################################
+##############################################################################
+# Btune for Blosc2 - Automatically choose the best codec/filter for your data
+#
+# Copyright (c) 2023 The Blosc Developers <blosc@blosc.org>
+# https://btune.blosc.org
+# License: GNU Affero General Public License v3.0
+# See LICENSE.txt for details about copyright and rights to use.
+##############################################################################
+
 import numpy as np
 
-import btune_lib as bt
+from btune_training import btune_lib as bt
 import pandas as pd
 import tensorflow as tf
 import sys
 
 if __name__ == '__main__':
-    if len(sys.argv) == 2 and sys.argv[1] in ["c", "d"]:
-        cspeed = sys.argv[1] == "c"
-    else:
-        print("Usage example: python training_chunk.py c[cspeed]/d[dspeed]")
+    if len(sys.argv) < 3 or sys.argv[1] not in ["c", "d"]:
+        print("Usage example: python training_chunk.py c[cspeed]/d[dspeed] meas_root meas_dir1 meas_dir2...")
         raise Exception("You can only specify whether to use compression speed (c) or decompression speed (d)")
+
+    cspeed = sys.argv[1] == "c"
+    meas_root = sys.argv[2]
+    meas_dirs = sys.argv[3:]
 
     probes = [
         'entropy-nofilter-nosplit',
@@ -55,9 +62,8 @@ if __name__ == '__main__':
     ]
 
     # Load data as dataframes
-    probes_dfs, codecs_dfs = bt.load_data_chunk(
-        root='../inference', probes=probes, categories=categories,
-        files=['measurements3'])
+    probes_dfs, codecs_dfs = bt.load_data_chunk(meas_root=meas_root, meas_dirs=meas_dirs,
+                                                probes=probes, categories=categories)
     tradeoffs_array = np.linspace(0, 1, 11, dtype="float32")
     print("Tradeoffs = ", tradeoffs_array)
     # Bests categories for every data sample
