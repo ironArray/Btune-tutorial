@@ -82,11 +82,22 @@ Look at the score and the compression ratios columns.  The smaller the score, th
 
 Besides genetic tuning, Btune can also use neural network models that are trained for specific datasets.  With that, Btune can take better informed decisions on the codecs/filters that can lead to the best tradeoff between speed and compression ratio.
 
-For training a model, you need to install the Btune-training package:
+For training a model, you need to install the btune-training package.  First download all the wheels for it by visiting https://digistorage.net/scgpku0k, and then:
+
+```shell
+unzip btune-training-wheels.zip
+```
+
+and then install the one that fits your package; for example:
+
+```shell
+python -m pip install btune-training-wheels/btune_training-1.0.0-cp310-cp310-macosx_11_0_arm64.whl
+```
+
+and finally the dependencies:
 
 ```shell
 python -m pip install requirements-training.txt
-python -m pip install btune-training    # (accessible from extras/ directory)
 ```
 
 Then, let's create a file that follows the same distribution as the one in the previous section:
