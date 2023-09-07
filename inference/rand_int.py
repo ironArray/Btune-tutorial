@@ -18,7 +18,7 @@ rng = np.random.default_rng()
 if len(sys.argv) > 1 and sys.argv[1] == '-t':
     print("Creating data for training purposes...")
     # Try to train with at least 3k chunks
-    a = rng.integers(low=0, high=10000, size=int(5e7), dtype=np.int64)
+    a = rng.integers(low=0, high=10000, size=int(2e7), dtype=np.int64)
     urlpath_training = urlpath % "training"
     _ = blosc2.asarray(a, urlpath=urlpath_training, mode="w", chunks=chunks)
     print(f"NDArray '{urlpath_training}' created!")
