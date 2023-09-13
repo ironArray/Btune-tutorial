@@ -2,11 +2,11 @@
 
 First, clone this repo with:
 
-    $ git clone https://github.com/Blosc/Btune-tutorial
+    git clone https://github.com/Blosc/Btune-tutorial
 
 And install the Btune plugin:
 
-    $ pip install blosc2-btune
+    pip install blosc2-btune
 
 # Genetic tuning
 
@@ -15,7 +15,10 @@ To use Btune with Blosc2, set the `BTUNE_TRADEOFF` environment variable to a flo
 For a trace of what is going on, set the `BTUNE_TRACE` environment variable.  With that, go to the `inference/` directory and type:
 
 ```
-$ BTUNE_TRACE=1 BTUNE_TRADEOFF=0.5 BTUNE_PERF_MODE=COMP python rand_int.py
+BTUNE_TRACE=1 BTUNE_TRADEOFF=0.5 BTUNE_PERF_MODE=COMP python rand_int.py
+```
+
+```
 -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 Btune version: 1.0.1.dev
 Performance Mode: COMP, Compression tradeoff: 0.500000, Bandwidth: 20 GB/s
@@ -82,7 +85,7 @@ Look at the score and the compression ratios columns.  The smaller the score, th
 
 Besides genetic tuning, Btune can also use neural network models that are trained for specific datasets.  With that, Btune can take better informed decisions on the codecs/filters that can lead to the best tradeoff between speed and compression ratio.
 
-For training a model, you need to install the btune-training package.  First download all the wheels for it by visiting https://digistorage.net/scgpku0k, and then:
+For training a model, you need to install the btune-training package.  First download all the wheels for it by visiting https://digistorage.net/scgpku0k, and then unzip it if needed:
 
 ```shell
 unzip btune-training-wheels.zip
@@ -97,7 +100,7 @@ python -m pip install btune-training-wheels/btune_training-1.0.0-cp310-cp310-mac
 and finally the dependencies:
 
 ```shell
-python -m pip install requirements-training.txt
+python -m pip install -r requirements-training.txt
 ```
 
 Then, let's create a file that follows the same distribution as the one in the previous section:
