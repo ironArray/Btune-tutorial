@@ -85,29 +85,31 @@ Look at the score and the compression ratios columns.  The smaller the score, th
 
 Besides genetic tuning, Btune can also use neural network models that are trained for specific datasets.  With that, Btune can take better informed decisions on the codecs/filters that can lead to the best tradeoff between speed and compression ratio.
 
-For training a model, you need to install the btune-training package.  First download all the wheels for it by visiting https://digistorage.net/scgpku0k, and then unzip it if needed:
+For training a model, you need to install the btune-training package.  First download all the wheels for it by visiting https://digistorage.net/scgpku0k, and unzip it if needed:
 
 ```shell
 unzip btune-training-wheels.zip
 ```
 
-and then install the one that fits your package; for example:
+Then install the one that correspond to your platform; for example, if you are on a Mac with an ARM64 processor:
 
 ```shell
 python -m pip install btune-training-wheels/btune_training-1.0.0-cp310-cp310-macosx_11_0_arm64.whl
 ```
 
-and finally the dependencies:
+and finally, install the dependencies (in the root directory of this tutorial repo):
 
 ```shell
+cd <root_tutorial_repo>
 python -m pip install -r requirements-training.txt
 ```
 
-Then, let's create a file that follows the same distribution as the one in the previous section:
+Then, let's create a file that follows the same distribution as the one in the previous section. This time, we will be adding a `-t` flag, meaning that we are going to create a larger file (the training process requires relatively large datasets for being accurate enough) :
 
 ```shell
 cd inference
 python rand_int.py -t
+ls -l rand_int_training.b2nd
 ```
 
 Now, we can start the training process.  Let's first do the necessary measurements (for entropy and cratios and times for codecs/filters):
@@ -123,7 +125,7 @@ We can proceed with the training as such.  Let's start generating models for 'c'
 python training_chunk.py c ../inference rand_int_training.b2nd.meas
 ```
 
-In the output we can see the most predicted codecs and filters for every tradeoff.  For example:
+In the output we can see the most predicted codecs and filters for every tradeoff.  For example, on my machine I get:
 
 ```
                   1st most predicted               2nd most predicted 3rd most predicted Mean cratio Mean cspeed (GB/s) Mean dspeed (GB/s)
