@@ -4,9 +4,15 @@ First, clone this repo with:
 
     git clone https://github.com/Blosc/Btune-tutorial
 
-And install the Btune plugin:
+Then, make sure that you are using a Python environment with Python 3.10 or 3.11.  For example, if you are using conda, you can do that easily with:
 
-    pip install blosc2-btune
+    conda create -n btune-tutorial python=3.11
+    conda activate btune-tutorial
+
+
+Install the Btune plugin:
+
+    pip install blosc2-btune -U
 
 # Genetic tuning
 
@@ -94,14 +100,14 @@ unzip btune-training-wheels.zip
 Then install the one that correspond to your platform; for example, if you are on a Mac with an ARM64 processor:
 
 ```shell
-python -m pip install btune-training-wheels/btune_training-1.0.0-cp310-cp310-macosx_11_0_arm64.whl
+python -m pip install btune-training-wheels/btune_training-1.0.0-cp310-cp310-macosx_11_0_arm64.whl -U
 ```
 
 and finally, install the dependencies (in the root directory of this tutorial repo):
 
 ```shell
 cd <root_tutorial_repo>
-python -m pip install -r requirements-training.txt
+python -m pip install -r requirements-training.txt -U
 ```
 
 Then, let's create a file that follows the same distribution as the one in the previous section. This time, we will be adding a `-t` flag, meaning that we are going to create a larger file (the training process requires relatively large datasets for being accurate enough) :
@@ -186,7 +192,11 @@ mv model* ../inference/rand_int_training.model
 
 # Using trained Btune models
 
-With the models, we can predict the best codecs/filters during the creation of new datasets.  Let's do that now for COMPression performance mode:
+With the models, we can predict the best codecs/filters during the creation of new datasets.
+
+## Inference (predictions) in COMPression mode
+
+Let's do the inference for COMPression performance mode:
 
 ```shell
 cd ../inference
@@ -267,12 +277,19 @@ In particular, you can try with different tradeoffs:
 
 Also, you can set `BTUNE_USE_INFERENCE` to a positive value to use inference only for the first iterations; after that, Btune will fall back into a 'gentle' genetic mode, also called 'tweaking', for fine-tuning some params like `clevel` or `splitmode`.  Note that the tweaking will start from the set of compression parameters that have won in the previous
 
+### Exercise3: combine inference and tweaking modes
+
 Try with the next values:
 
 - BTUNE_USE_INFERENCE=3   # only do inference for the first 3 chunks and then use tweaking
 - BTUNE_USE_INFERENCE=10  # only do inference for the first 10 chunks and then use tweaking
 
-And when we want to use the model in DECOMPression performance mode:
+* How the parameters are tested now?  Can you see the new pattern?
+* How predictions differ from complete inference?
+
+## Inference (predictions) in DECOMPression performance mode
+
+Let's use the model in DECOMPression performance mode now:
 
 ```shell
 BTUNE_TRADEOFF=0.5 BTUNE_USE_INFERENCE=-1 BTUNE_PERF_MODE=DECOMP BTUNE_TRACE=1  BTUNE_MODELS_DIR=rand_int_training.model python rand_int.py
@@ -338,16 +355,18 @@ TRACE: Inference category=2 codec=0 filter=2 clevel=5 splitmode=2 time entropy=0
 NDArray 'rand_int_inference.b2nd' created!
 ```
 
-### Exercise 3: experiment with different parameters in DECOMP performance mode
+### Exercise 4: experiment with different parameters in DECOMP performance mode
 
-Go to instructions in previous exercise and retry them here.
+Go to instructions in exercises 2 and 3 and retry them for DECOMP mode.
 
-## Final exercise: train your own dataset!
+## Final exercise: train models with your own datasets!
 
-Go copy the `rand_int.py` script to some other name (e.g. `my_data.py`) and use some other dataset than the one there.  Change the name of the output file too (but keep the .b2nd extension, as it will remain a Blosc2 format).  Train with that one, and store the model in another directory.
+Go copy the `rand_int.py` script to some other name (e.g. `my_data.py`) and use some other dataset than the one there (you can read them from your favorite format, like HDF5 or Zarr).  Change the name of the output file too (but keep the .b2nd extension, as it will remain a Blosc2 format).  Train with that one, and store the model in another directory.
 
 Indeed, you can bring your own data, create a NumPy array out of it, and export it to the Blosc2 format.  We recommend to make sure to populate the new array with at least 3000 chunks; in our experience, this is a good minimum to ensure a decent training.
 
 Play with the parameters stated in exercises 2 and 3 and get your own conclusions.  Raise your hand and let's have a discussion in case you get 'interesting' results.
 
-That's all folks; hope you have enjoyed the ride!  For more information about Btune, check out: https://www.blosc.org/pages/btune/
+That's all folks; hope you have enjoyed the ride!  For more information about Btune, check out: https://btune.blosc.org
+
+More inquiries?  contact@blosc.org
