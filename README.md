@@ -369,4 +369,4 @@ Play with the parameters stated in exercises 2 and 3 and get your own conclusion
 
 That's all folks; hope you have enjoyed the ride!  For more information about Btune, check out: https://btune.blosc.org
 
-More inquiries?  contact@blosc.org
+Inquiries?  contact@blosc.org
