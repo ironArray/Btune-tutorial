@@ -367,6 +367,6 @@ Indeed, you can bring your own data, create a NumPy array out of it, and export 
 
 Play with the parameters stated in exercises 2 and 3 and get your own conclusions.  Raise your hand and let's have a discussion in case you get 'interesting' results.
 
-That's all folks; hope you have enjoyed the ride!  For more information about Btune, check out: https://btune.blosc.org
+That's all folks; hope you have enjoyed the ride!  For more information about Btune, check out: https://ironarray.io/btune
 
-Inquiries?  contact@blosc.org
+Inquiries?  contact@ironarray.io
